@@ -7,13 +7,16 @@ public class World {
 
         System.out.println("Start");
 
-        run(convertToEnum(args));
+        Animal dog = new Animal();
+        OptionsParser parser = new OptionsParser();
+        Direction[] directions = parser.parse(args);
+        System.out.println(dog.getLocation().toString());
+        for (Direction element: directions) {
+            dog.move(element);
+            System.out.println(dog.getLocation().toString());
+        }
+
         System.out.println("Stop");
-        Vector2d position1 = new Vector2d(1,2);
-        System.out.println(position1);
-        Vector2d position2 = new Vector2d(-2,1);
-        System.out.println(position2);
-        System.out.println(position1.add(position2));
     }
     public static void run(Direction[] directions) {
         for (Direction element : directions) {
