@@ -8,8 +8,10 @@ class AnimalTest {
 
     @Test
     void move() {
-        Animal animal = new Animal();
+        IWorldMap map = new RectangularMap(4, 4);
+        Animal animal = new Animal(map, new Vector2d(2, 2));
         animal.move(Direction.FORWARD);
+
         assertTrue(animal.isAt(new Vector2d(2,3)));
 
         animal.move(Direction.FORWARD);

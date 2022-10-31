@@ -2,7 +2,14 @@ package agh.ics.oop;
 
 public class Animal {
     private MapDirection direction = MapDirection.NORTH;
-    private Vector2d location = new Vector2d(2, 2);
+    private Vector2d location;
+    private IWorldMap map;
+
+    public Animal(IWorldMap map, Vector2d location) {
+
+        this.map = map;
+        this.location = location;
+    }
     public MapDirection getDirection() {
         return direction;
     }
@@ -16,7 +23,7 @@ public class Animal {
         location = newLocation;
     }
     public String toString() {
-        return "Koordynaty: " + getLocation().toString() + "Kierunek: " + getDirection().toString();
+        return getDirection().toStringShort();
     }
     public boolean isAt(Vector2d position) {
         if ( this.location.equals(position) ) {
@@ -25,8 +32,6 @@ public class Animal {
         return false;
     }
     public void move(Direction direction) {
-        Vector2d vector0 = new Vector2d(0,0);
-        Vector2d vector4 = new Vector2d(4,4);
         switch (direction) {
             case RIGHT:
                 setDirection(getDirection().next());
@@ -35,13 +40,13 @@ public class Animal {
                 setDirection(getDirection().previous());
                 break;
             case FORWARD:
-                if (getLocation().add(getDirection().toUnitVector()).follows(vector0) && getLocation().add(getDirection().toUnitVector()).precedes(vector4)) {
+                if (map.canMoveTo(this.getLocation().add(getDirection().toUnitVector()))) {
                     setLocation(getLocation().add(getDirection().toUnitVector()));
                 }
                 break;
             case BACKWARD:
-                if (getLocation().add(getDirection().toUnitVector()).follows(vector0) && getLocation().add(getDirection().toUnitVector()).precedes(vector4)) {
-                    setLocation(getLocation().add(getDirection().toUnitVector()));
+                if (map.canMoveTo(this.getLocation().add(getDirection().toUnitVector().opposite())) ) {
+                    setLocation(getLocation().add(getDirection().toUnitVector().opposite()));
                 }
                 break;
         }

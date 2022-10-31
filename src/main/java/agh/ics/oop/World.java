@@ -7,15 +7,12 @@ public class World {
 
         System.out.println("Start");
 
-        Animal dog = new Animal();
-        OptionsParser parser = new OptionsParser();
-        Direction[] directions = parser.parse(args);
-        System.out.println(dog.getLocation().toString());
-        for (Direction element: directions) {
-            dog.move(element);
-            System.out.println(dog.getLocation().toString());
-        }
 
+        Direction[] directions = new OptionsParser().parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
         System.out.println("Stop");
     }
     public static void run(Direction[] directions) {
