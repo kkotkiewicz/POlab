@@ -29,8 +29,7 @@ public class SimulationEngine implements IEngine {
     public void run() {
         int length = this.createAnimals();
         for (int i = 0; i < directions.length; i++) {
-            MapVisualizer mapVisualizer = new MapVisualizer(map);
-            System.out.println(mapVisualizer.draw(new Vector2d(0,0), new Vector2d(10, 5)));
+            System.out.println(map.toString());
             animalArray.get(i % length).move(directions[i]);
         }
     }

@@ -13,6 +13,7 @@ public class Animal {
     public MapDirection getDirection() {
         return direction;
     }
+
     public Vector2d getLocation() {
         return location;
     }
@@ -25,6 +26,7 @@ public class Animal {
     public String toString() {
         return getDirection().toStringShort();
     }
+
     public boolean isAt(Vector2d position) {
         if ( this.location.equals(position) ) {
             return true;
