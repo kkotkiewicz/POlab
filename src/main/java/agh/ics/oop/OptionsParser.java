@@ -13,6 +13,7 @@ public class OptionsParser {
         Direction[] directions = new Direction[i];
         i = 0;
         for (String element: options) {
+
             switch (element) {
                 case "f", "forward":
                     directions[i] = Direction.FORWARD;
@@ -28,6 +29,7 @@ public class OptionsParser {
                     break;
                 default:
                     i -= 1;
+                    throw new IllegalArgumentException(element + " is not legal move specification");
             }
             i+=1;
         }

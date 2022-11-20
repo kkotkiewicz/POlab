@@ -1,19 +1,13 @@
 package agh.ics.oop;
+import agh.ics.oop.gui.App;
+import javafx.application.Application;
+
 import static agh.ics.oop.Direction.*;
 
 
 public class World {
     public static void main(String[] args) {
-
-        System.out.println("Start");
-
-
-        Direction[] directions = new OptionsParser().parse(args);
-        IWorldMap map = new GrassField(4);
-        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-        IEngine engine = new SimulationEngine(directions, map, positions);
-        engine.run();
-        System.out.println("Stop");
+        Application.launch(App.class, args);
     }
     public static void run(Direction[] directions) {
         for (Direction element : directions) {

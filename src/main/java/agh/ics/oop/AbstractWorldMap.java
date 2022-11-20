@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     protected Map<Vector2d, Animal> animals = new HashMap<>();
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -18,7 +18,7 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
             animal.addObserver(this);
             return true;
         }
-        return false;
+        throw new IllegalArgumentException(animal.getLocation().toString() + " is not available");
     }
 
     @Override
@@ -41,4 +41,8 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
         animals.put(newPosition, animals.get(oldPosition));
         animals.remove(oldPosition);
     }
+
+    public abstract Vector2d getLowerLeft();
+
+    public abstract Vector2d getUpperRight();
 }

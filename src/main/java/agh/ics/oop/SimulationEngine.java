@@ -2,6 +2,7 @@ package agh.ics.oop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class SimulationEngine implements IEngine {
     public Direction[] directions;
@@ -32,5 +33,6 @@ public class SimulationEngine implements IEngine {
             System.out.println(map.toString());
             animalArray.get(i % length).move(directions[i]);
         }
+        System.out.println(map.toString());
     }
 }

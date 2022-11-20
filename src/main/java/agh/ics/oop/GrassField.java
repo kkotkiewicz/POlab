@@ -7,11 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 public class GrassField extends AbstractWorldMap {
+    private MapBoundary mapBoundary;
     private int grassCount;
     private Map<Vector2d, Grass> grass = new HashMap<>();
     public GrassField(int grassCount) {
+        mapBoundary = new MapBoundary(animals, grass);
         this.grassCount = grassCount;
         generateGrass();
+
     }
     private MapVisualizer mapVisualizer = new MapVisualizer(this);
 
@@ -22,10 +25,12 @@ public class GrassField extends AbstractWorldMap {
             if (objectAt(newGrass.getLocation()) != null) {
                 if (objectAt(newGrass.getLocation()).toString() == "*") {
                     grass.put(newGrass.getLocation(), newGrass);
+                    mapBoundary.addElement(newGrass.getLocation());
                     n+=1;
                 }
             } else {
                 grass.put(newGrass.getLocation(), newGrass);
+                mapBoundary.addElement(newGrass.getLocation());
                 n+=1;
             }
         }
@@ -53,37 +58,29 @@ public class GrassField extends AbstractWorldMap {
         }
         return null;
     }
-    private Vector2d lowerLeft() {
-        Vector2d lowerLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        for (Animal animal : animals.values()) {
-            lowerLeft.x = Math.min(lowerLeft.x, animal.getLocation().x);
-            lowerLeft.y = Math.min(lowerLeft.y, animal.getLocation().y);
-        }
-        for (Grass element : grass.values()) {
-            lowerLeft.x = Math.min(lowerLeft.x, element.getLocation().x);
-            lowerLeft.y = Math.min(lowerLeft.y, element.getLocation().y);
-        }
-        return new Vector2d(lowerLeft.x, lowerLeft.y);
 
+    @Override
+    public boolean place(Animal animal) {
+        mapBoundary.addElement(animal.getLocation());
+        return super.place(animal);
+    }
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        animals.put(newPosition, animals.get(oldPosition));
+        animals.remove(oldPosition);
+        mapBoundary.positionChanged(oldPosition, newPosition);
+    }
+    public Vector2d getLowerLeft() {
+        return mapBoundary.getLowerLeft();
     }
 
-    private Vector2d upperRight() {
-        Vector2d upperRight = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        for (Animal animal : animals.values()) {
-            upperRight.x = Math.max(upperRight.x, animal.getLocation().x);
-            upperRight.y = Math.max(upperRight.y, animal.getLocation().y);
-        }
-        for (Grass element : grass.values()) {
-            upperRight.x = Math.max(upperRight.x, element.getLocation().x);
-            upperRight.y = Math.max(upperRight.y, element.getLocation().y);
-        }
-        return new Vector2d(upperRight.x, upperRight.y);
-
+    public Vector2d getUpperRight() {
+        return mapBoundary.getUpperRight();
     }
 
     public String toString() {
-        Vector2d lowerLeft = this.lowerLeft();
-        Vector2d upperRight = this.upperRight();
+        Vector2d lowerLeft = mapBoundary.getLowerLeft();
+        Vector2d upperRight = mapBoundary.getUpperRight();
         return this.mapVisualizer.draw(lowerLeft, upperRight);
     }
 }
