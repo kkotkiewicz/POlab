@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-public class Grass {
+public class Grass implements IMapElement{
     private Vector2d location;
     public Grass(Vector2d position) {
         this.location = position;
@@ -11,6 +11,10 @@ public class Grass {
             return true;
         }
         return false;
+    }
+
+    public String getImageResource() {
+        return "grass.png";
     }
 
     public Vector2d getLocation() {

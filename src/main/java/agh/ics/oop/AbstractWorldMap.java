@@ -29,7 +29,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         return false;
     }
     @Override
-    public Object objectAt(Vector2d position) {
+    public IMapElement objectAt(Vector2d position) {
         if (animals.containsKey(position)) {
             return animals.get(position);
         }

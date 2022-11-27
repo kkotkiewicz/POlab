@@ -3,7 +3,7 @@ package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Animal {
+public class Animal implements IMapElement {
     private List<IPositionChangeObserver> observers = new ArrayList<>();
     private MapDirection direction = MapDirection.NORTH;
     private Vector2d location;
@@ -59,6 +59,16 @@ public class Animal {
                 }
                 break;
         }
+    }
+
+    public String getImageResource() {
+        switch (getDirection()) {
+            case EAST: return "right.png";
+            case SOUTH: return "down.png";
+            case WEST: return "left.png";
+            case NORTH: return "up.png";
+        }
+        return null;
     }
 
     public void addObserver(IPositionChangeObserver observer) {
